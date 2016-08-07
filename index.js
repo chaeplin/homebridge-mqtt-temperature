@@ -12,6 +12,7 @@ function TemperatureAccessory(log, config) {
   this.name = config["name"];
   this.url = config['url'];
   this.topic = config['topic'];
+  this.msgobject = config['msgobject'];
   this.client_Id 		= 'mqttjs_' + Math.random().toString(16).substr(2, 8);7
   this.options = {
     keepalive: 10,
@@ -41,8 +42,8 @@ function TemperatureAccessory(log, config) {
     // message is Buffer 
     data = JSON.parse(message);
     if (data === null) {return null}
-    that.temperature = parseFloat(data);
-//    that.log("that.MQTT Temperature: " , that.temperature);
+    that.temperature = parseFloat(data[that.msgobject]);
+    //that.log("that.MQTT Temperature: " , that.temperature);
 
 });
 
@@ -52,7 +53,7 @@ function TemperatureAccessory(log, config) {
 }
 
 TemperatureAccessory.prototype.getState = function(callback) {
-        this.log(this.name, " - MQTT : ", this.temperature);
+    //this.log(this.name, " - MQTT : ", this.temperature);
     callback(null, this.temperature);
 }
 
